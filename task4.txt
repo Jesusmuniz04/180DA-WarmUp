@@ -1,0 +1,7 @@
+1. When I did a test of HSV vs RGB, I was able to see that HSV worked better than RGB. I used a smaller HSV range around the hue and it was more reliable than RGB
+
+2. When I used a flashlight to change the lighting, the tracking got a but worse, but HSV was still better 
+
+3. When I created a rectangle I was able to detect the dominant color with a small HSV range. the brightness sometimes hurt the result because of glare and exposure of brightness. 
+
+4. when the object was non phone it stayed more consistent than the screen which shifted with more brightness. 

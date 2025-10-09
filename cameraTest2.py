@@ -71,30 +71,22 @@ def main():
         dom_bgr, mix, ctrs_bgr = dominant_from_roi(
             roi_bgr, k=k, subsample=subs, max_pts=5000, use_lab=use_lab
         )
-
         cv2.rectangle(frame_bgr, (x0, y0), (x1, y1), (0, 255, 0), 2)
-
         patch = np.zeros((100, 100, 3), np.uint8); patch[:] = dom_bgr
         bar = make_bar(mix, ctrs_bgr, width=320, height=50)
 
         txt = "Dominant: {} {}".format(tuple(int(c) for c in dom_bgr), to_hex(dom_bgr))
         cv2.putText(frame_bgr, txt, (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (25, 220, 25), 2)
-
-        # ===== ADDED: separate window that shows only the dominant color swatch + label =====
         swatch_h, swatch_w = 240, 240
         swatch = np.zeros((swatch_h, swatch_w, 3), np.uint8)
         swatch[:] = dom_bgr
-
         rgb = (int(dom_bgr[2]), int(dom_bgr[1]), int(dom_bgr[0]))  # BGR -> RGB
         hexcode = to_hex(dom_bgr)
         luminance = 0.299*rgb[0] + 0.587*rgb[1] + 0.114*rgb[2]
         txt_color = (0, 0, 0) if luminance > 128 else (255, 255, 255)
-
         cv2.putText(swatch, f"{rgb}  {hexcode}", (10, swatch_h - 12),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.6, txt_color, 2, cv2.LINE_AA)
         cv2.imshow("Dominant Color", swatch)
-        # ================================================================================
-
         cv2.imshow("Webcam", frame_bgr)
         cv2.imshow("Dominant (swatch)", patch)
         cv2.imshow("Mixture (bar)", bar)
